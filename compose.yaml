@@ -1,0 +1,48 @@
+services:
+  www:
+    build:
+      context: .
+      dockerfile: docker-php/Dockerfile
+    container_name: ecoride_2025_www
+    env_file:
+      - ./.env.local
+    ports:
+      - 8000:80
+    depends_on:
+      - mysql
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php/vhosts:/etc/apache2/sites-enabled
+    networks:
+      - ecoride_2025
+    command: >
+      bash -c "chown -R www-data:www-data /var/www/html
+      && chmod -R 755 /var/www/html
+      && apache2-foreground"
+
+  mysql:
+    image: mysql
+    container_name: ecoride_2025_mysql
+    volumes:
+      - ./var/db_data:/var/lib/mysql
+    env_file:
+      - ./.env.local
+    ports:
+      - 3307:3306
+    networks:
+      - ecoride_2025
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: ecoride_2025_phpmyadmin
+    depends_on:
+      - mysql
+    ports:
+      - 8080:80
+    networks:
+      - ecoride_2025
+    environment:
+      PMA_HOST: mysql
+
+networks:
+  ecoride_2025:

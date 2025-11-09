@@ -12,6 +12,7 @@ services:
       - mysql
     volumes:
       - ./:/var/www/html
+      - /var/www/html/.git
       - ./docker/php/vhosts:/etc/apache2/sites-enabled
     networks:
       - ecoride_2025
@@ -22,6 +23,7 @@ services:
 
   mysql:
     image: mysql
+    platform: linux/x86_64
     container_name: ecoride_2025_mysql
     volumes:
       - ./var/db_data:/var/lib/mysql

@@ -1,3 +1,4 @@
-body {
-    background-color: skyblue;
-}
+/* Rename this file to app.scss and use Dart Sass modules instead of @import.
+   After renaming, replace this file content with the following line: */
+
+@use "bootstrap" as *;

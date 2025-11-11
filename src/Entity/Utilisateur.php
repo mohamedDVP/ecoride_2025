@@ -81,7 +81,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'utilisateurs')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Role $role = null;
+    private ?Role $roles = null;
 
     /**
      * @var Collection<int, Configuration>
@@ -379,7 +379,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRole(): ?Role
     {
-        return $this->role;
+        return $this->roles;
     }
 
     /**
@@ -390,19 +390,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = [];
-        if ($this->role instanceof Role && null !== $this->role->getLibelle()) {
-            $roles[] = $this->role->getLibelle();
+        foreach ($this->roles as $role) {
+            $roles[] = $role->getLibelle();
         }
-
-        // les utilisateurs ont toujours au moins le rôle ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $roles;
     }
 
     public function setRole(?Role $role): static
     {
-        $this->role = $role;
+        $this->roles = $role;
 
         return $this;
     }

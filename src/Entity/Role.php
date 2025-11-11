@@ -22,7 +22,7 @@ class Role
     /**
      * @var Collection<int, Utilisateur>
      */
-    #[ORM\OneToMany(targetEntity: Utilisateur::class, mappedBy: 'role')]
+    #[ORM\OneToMany(targetEntity: Utilisateur::class, mappedBy: 'roles')]
     private Collection $utilisateurs;
 
     public function __construct()
